@@ -1,9 +1,12 @@
 import './App.css'
+import { Websocket } from './components/Websocket'
 
 function App() {
 
   return (
-    <div>app</div>
+    <div>
+      <Websocket />
+    </div>
   )
 }
 
