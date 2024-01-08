@@ -9,6 +9,12 @@ export const Websocket = () => {
     const [messages, setMessages] = useState<MessageType[]>([]);
     const socket = useContext(WebsocketContext);
 
+    const onSubmit = () => {
+        socket.emit('newMessage', value);
+        setValue('');
+      };
+
+
     return(
         <div>
             <h1>Websocket Messages</h1>
@@ -24,8 +30,8 @@ export const Websocket = () => {
                 )}
             </div>
             Message: 
-            <input type="text" />
-            <button>Send</button>
+            <input type="text" value={value} onChange={(e) => setValue(e.target.value)} />
+            <button onClick={onSubmit}>Send</button>
         </div>
     );
 } 
