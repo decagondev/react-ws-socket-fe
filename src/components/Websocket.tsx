@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { uuid } from 'uuidv4';
 import { WebsocketContext } from '../contexts/WebsocketContext';
 
@@ -8,6 +8,18 @@ export const Websocket = () => {
     const [value, setValue] = useState('');
     const [messages, setMessages] = useState<MessageType[]>([]);
     const socket = useContext(WebsocketContext);
+
+    useEffect(() => {
+        socket.on('connect', () => {
+          console.log('Connected!');
+        });
+        socket.on('onMessage', (newMessage: MessageType) => setMessages((prev) => [...prev, newMessage]));
+        return () => {
+          socket.off('connect');
+          socket.off('onMessage');
+        };
+      }, []);
+    
 
     const onSubmit = () => {
         socket.emit('newMessage', value);
